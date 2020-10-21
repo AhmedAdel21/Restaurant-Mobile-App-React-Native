@@ -4,15 +4,11 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import fetch from 'cross-fetch';
-import { DISHES } from '../shared/dishes';
-
 
 export const fetchDishes = createAsyncThunk('redux/fetchDishes',async () => {
   const response = await fetch (baseUrl + 'dishes')
-  
   const dishes = await response.json();
-  console.log("bbbbbbb")
-  return dishes
+  return dishes;
 
 })
 
@@ -32,7 +28,6 @@ export const dishesSlice = createSlice({
       [fetchDishes.fulfilled]: (state, action) => {
         state.status = 'succeeded'
         console.log('succeeded')
-        // Add any fetched posts to the array
         state.dishes = action.payload
       },
       [fetchDishes.rejected]: (state, action) => {
@@ -43,7 +38,7 @@ export const dishesSlice = createSlice({
       },
     }
 })
-
+/*
 export function fetchRecipes() {
   return async dispatch => {
     console.log("we are in")
@@ -59,31 +54,6 @@ export function fetchRecipes() {
     }
   }
 }
-/*
-export const fetchDishes = () => (dispatch) => {
-
-  dispatch(DISHES_LOADING());
-
-  return fetch(baseUrl + 'dishes')
-  .then(response => {
-      if (response.ok) {
-        console.log('response is Ok');
-        return response;
-      } else {
-        console.log('response is NOT Ok');
-        var error = new Error('Error ' + response.status + ': ' + response.statusText);
-        error.response = response;
-        throw error;
-      }
-    },
-    error => {
-          var errmess = new Error(error.message);
-          throw errmess;
-    })
-  .then(response => response.json())
-  .then(dishes => dispatch(ADD_DISHES(dishes)))
-  .catch(error => dispatch(DISHES_FAILED(error.message)));
-};
 */
 export const { ADD_DISHES, DISHES_FAILED, DISHES_LOADING} = dishesSlice.actions;
 export default dishesSlice.reducer;

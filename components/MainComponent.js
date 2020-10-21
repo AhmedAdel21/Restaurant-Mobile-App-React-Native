@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { Component, useState } from 'react';
-import {DISHES} from '../shared/dishes';
+import React, { useEffect} from 'react';
 import Menu from './MenuComponent';
 import Dishdetail from './DishDetailComponent';
 import Home from'./HomeComponent';
@@ -13,8 +12,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator,DrawerItemList } from '@react-navigation/drawer';
 import { Icon } from 'react-native-elements';
-import { ADD_DISHES } from '../redux/dishes';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { fetchDishes} from '../redux/dishes';
+import { fetchComments} from '../redux/comments';
+import { fetchLeaders} from '../redux/leaders';
+import { fetchPromotions} from '../redux/promotions';
 const Stack  = createStackNavigator(); 
 const Drawer = createDrawerNavigator();
 const menuNavigator = () => {
@@ -67,30 +69,26 @@ const CustomDrawerContentComponent = (props) => (
     </ScrollView>
   );
 
-class Main extends Component{
-    constructor(props){
-        super (props);
-        this.state ={
-            dishes: DISHES,
-            selectedDish : null,
-            data: ''
-        }
-    }
-    onDishSelect (dishId){ 
-        this.setState({selectedDish : dishId})
-     }
-     
-    render(){
-        return( 
-            <NavigationContainer>
-                <Drawer.Navigator initialRouteName="Home" drawerStyle={{backgroundColor: '#D1C4E9'}} drawerContent={(props) => <CustomDrawerContentComponent {...props}/>}  >
-                    <Drawer.Screen name='Home' component={homeNavigator} options={{drawerIcon:({ tintColor }) => (<Icon name='home' type='font-awesome' size={24} color={tintColor}/>) ,  title: "Home"}}/>
-                    <Drawer.Screen name='Menu' component={menuNavigator}  options={{drawerIcon:({ tintColor }) => (<Icon name='list' type='font-awesome' size={24} color={tintColor}/>) ,title: "Menu"}}/>
-                    <Drawer.Screen name="ContactNavigator" component={ContactNavigator} options={{drawerIcon:({ tintColor }) => (<Icon name='address-card' type='font-awesome' size={22} color={tintColor}/>) ,title: "Contact Us"}} />
-                    <Drawer.Screen name="AboutNavigator" component={AboutNavigator} options={{drawerIcon:({ tintColor }) => (<Icon name='info-circle' type='font-awesome' size={24} color={tintColor}/>) ,title: "About Us"}} />
-                </Drawer.Navigator>
-            </NavigationContainer>
-            )}
+function Main (props){
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchDishes());
+        dispatch(fetchComments());
+        dispatch(fetchLeaders());
+        dispatch(fetchPromotions());
+    }, [dispatch])
+
+    return( 
+      <NavigationContainer>
+          <Drawer.Navigator initialRouteName="Home" drawerStyle={{backgroundColor: '#D1C4E9'}} drawerContent={(props) => <CustomDrawerContentComponent {...props}/>}  >
+              <Drawer.Screen name='Home' component={homeNavigator} options={{drawerIcon:({ tintColor }) => (<Icon name='home' type='font-awesome' size={24} color={tintColor}/>) ,  title: "Home"}}/>
+              <Drawer.Screen name='Menu' component={menuNavigator}  options={{drawerIcon:({ tintColor }) => (<Icon name='list' type='font-awesome' size={24} color={tintColor}/>) ,title: "Menu"}}/>
+              <Drawer.Screen name="ContactNavigator" component={ContactNavigator} options={{drawerIcon:({ tintColor }) => (<Icon name='address-card' type='font-awesome' size={22} color={tintColor}/>) ,title: "Contact Us"}} />
+              <Drawer.Screen name="AboutNavigator" component={AboutNavigator} options={{drawerIcon:({ tintColor }) => (<Icon name='info-circle' type='font-awesome' size={24} color={tintColor}/>) ,title: "About Us"}} />
+          </Drawer.Navigator>
+      </NavigationContainer>
+          );
 
 }
 
