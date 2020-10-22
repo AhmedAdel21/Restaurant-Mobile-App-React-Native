@@ -11,11 +11,9 @@ export const fetchPromotions = createAsyncThunk('redux/fetchPromotions',async ()
 
 export const promotionsSlice = createSlice({
     name: 'promotions',
-    initialState: {isLoading: true,errMess: null,promotions:[],status: 'idle'},
+    initialState: {errMess: null,promotions:[],status: 'idle'},
     reducers: {
-        ADD_PROMOS: (state, action) => {state.promotions = action.payload, state.isLoading=false},
-        PROMOS_LOADING: state => {state.isLoading =true},
-        PROMOS_FAILED: (state, action) => {state.errMess = action.payload, state.isLoading=false}
+        ADD_PROMOS: (state, action) => {state.promotions = action.payload}
     },
     extraReducers: {
       [fetchPromotions.pending]: (state, action) => {
@@ -30,8 +28,7 @@ export const promotionsSlice = createSlice({
       [fetchPromotions.rejected]: (state, action) => {
         state.status = 'failed'
         console.log('failed promo')
-        state.error = action.payload
-        console.log(state.error)
+        state.errMess = action.error.message
       },
     }
 })

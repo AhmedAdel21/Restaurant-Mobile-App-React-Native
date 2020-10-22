@@ -11,27 +11,24 @@ export const fetchLeaders = createAsyncThunk('redux/fetchLeaders',async () => {
 
 export const leadersSlice = createSlice({
     name: 'leaders',
-    initialState: {isLoading: true,errMess: null,leaders:[],status: 'idle'},
+    initialState: {errMess: null,leaders:[],status: 'idle'},
     reducers: {
-        ADD_LEADERS: (state, action) => {state.leaders = action.payload, state.isLoading=false},
-        LEADERS_LOADING: state => {state.isLoading =true},
-        LEADERS_FAILED: (state, action) => {state.errMess = action.payload, state.isLoading=false}
+        ADD_LEADERS: (state, action) => {state.leaders = action.payload}
     },
     extraReducers: {
       [fetchLeaders.pending]: (state, action) => {
-        console.log('pending')
+        console.log('pending leadrs')
         state.status = 'loading'
       },
       [fetchLeaders.fulfilled]: (state, action) => {
         state.status = 'succeeded'
-        console.log('succeeded')
+        console.log('succeeded leadrs')
         state.leaders = action.payload
       },
       [fetchLeaders.rejected]: (state, action) => {
         state.status = 'failed'
-        console.log('failed')
-        state.error = action.payload
-        console.log(state.error)
+        console.log('failed leadrs')
+        state.errMess = action.error.message
       },
     }
 })

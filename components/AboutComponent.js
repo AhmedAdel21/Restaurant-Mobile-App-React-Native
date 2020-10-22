@@ -4,7 +4,7 @@ import { Card } from 'react-native-elements';
 import { ListItem ,Avatar } from 'react-native-elements'
 import { useSelector} from 'react-redux';
 import {baseUrl} from '../shared/baseUrl';
-
+import {Loading} from './LoadingComponent';
 const renderCorporateItem = ({item,index})=>{
     return(
         <ListItem key={index.toString()}hideChevron={true}>
@@ -17,18 +17,32 @@ const renderCorporateItem = ({item,index})=>{
     );
 }
 const CorporateView = (props)=>{
+    if(props.leaders.status === 'loading'){
+        return(
+            <Loading/>
+        );
+    }
+    else if (props.leaders.errMess){
+        return(
+            <View>
+                <Text>{props.leaders.errMess}</Text>
+            </View>
+        );
+    }
+    else{
         return(
             <Card>
                 <Card.Title><Text>Corporate Leadership</Text></Card.Title>
                 <Card.Divider/>
                 <FlatList
-                data={props.leaders}
+                data={props.leaders.leaders}
                 renderItem={renderCorporateItem}
                 keyExtracto={item => item.id.toString()}
                 />
             </Card>
         );
     }
+}
 
 const ContactView = ()=>{
         return(
@@ -43,7 +57,7 @@ const ContactView = ()=>{
         );
     }
 function About (props){
-        const leaders = useSelector((state) => state.leaders.leaders)
+        const leaders = useSelector((state) => state.leaders)
         return(
             <View>
                 <ScrollView>

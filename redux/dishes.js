@@ -14,27 +14,24 @@ export const fetchDishes = createAsyncThunk('redux/fetchDishes',async () => {
 
 export const dishesSlice = createSlice({
     name: 'dishes',
-    initialState: {isLoading: true,errMess: null,dishes:[],status: 'idle'},
+    initialState: {errMess: null,dishes:[],status: 'idle'},
     reducers: {
-        ADD_DISHES: (state, action) => {state.dishes = action.payload, state.isLoading=false},
-        DISHES_LOADING: state => {state.isLoading =true},
-        DISHES_FAILED: (state, action) => {state.errMess = action.payload, state.isLoading=false}
+        ADD_DISHES: (state, action) => {state.dishes = action.payload}
     },
     extraReducers: {
       [fetchDishes.pending]: (state, action) => {
-        console.log('pending')
+        console.log('pending dishes')
         state.status = 'loading'
       },
       [fetchDishes.fulfilled]: (state, action) => {
         state.status = 'succeeded'
-        console.log('succeeded')
+        console.log('succeeded dishes')
         state.dishes = action.payload
       },
       [fetchDishes.rejected]: (state, action) => {
         state.status = 'failed'
-        console.log('failed')
-        state.error = action.payload
-        console.log(state.error)
+        console.log('failed dishes')
+        state.errMess = action.error.message
       },
     }
 })

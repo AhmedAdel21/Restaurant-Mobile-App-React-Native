@@ -13,24 +13,22 @@ export const commentsSlice = createSlice({
     name: 'comments',
     initialState: {errMess: null,comments:[],status: 'idle'},
     reducers: {
-        ADD_COMMENTS: (state, action) => {state.comments = action.payload},
-        COMMENTS_FAILED: (state, action) => {state.errMess = action.payload}
+        ADD_COMMENTS: (state, action) => {state.comments = action.payload}
     },
     extraReducers: {
       [fetchComments.pending]: (state, action) => {
-        console.log('pending')
+        console.log('pending comments')
         state.status = 'loading'
       },
       [fetchComments.fulfilled]: (state, action) => {
         state.status = 'succeeded'
-        console.log('succeeded')
+        console.log('succeeded comments')
         state.comments = action.payload
       },
       [fetchComments.rejected]: (state, action) => {
         state.status = 'failed'
-        console.log('failed')
-        state.error = action.payload
-        console.log(state.error)
+        console.log('failed comments')
+        state.errMess = action.error.messag 
       },
     }
 })
