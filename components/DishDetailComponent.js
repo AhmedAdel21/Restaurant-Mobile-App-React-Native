@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 import { Tile,Card, Icon } from 'react-native-elements';
 import {FlatList} from 'react-native';
-import {DISHES} from '../shared/dishes';
-import {COMMENTS} from '../shared/comments'
 import { ScrollView } from 'react-native-gesture-handler';
 import { baseUrl } from '../shared/baseUrl';
+import { useSelector, useDispatch } from 'react-redux';
+import {ADD_FAVORITE} from '../redux/favorites';
 function RenderComments(props) {
 
     const comments = props.comments;
@@ -13,7 +13,7 @@ function RenderComments(props) {
     const renderCommentItem = ({item, index}) => {
         
         return (
-            <View key={index} style={{margin: 10}}>
+            <View key={index.toString()} style={{margin: 10}}>
                 <Text style={{fontSize: 14}}>{item.comment}</Text>
                 <Text style={{fontSize: 12}}>{item.rating} Stars</Text>
                 <Text style={{fontSize: 12}}>{'-- ' + item.author + ', ' + item.date} </Text>
@@ -40,7 +40,7 @@ function RenderDish (props) {
             return(
                 <Card>
                 <Card.Title>{dish.name}</Card.Title>
-                <Card.Image source={require('./alberto.png')} />
+                <Card.Image source={{uri: baseUrl + dish.image}} />
                     <Text style={{margin: 10}}>
                         {dish.description}
                     </Text>
@@ -55,31 +55,23 @@ function RenderDish (props) {
             return(<View></View>);
         }
 }
-class Dishdetail extends Component{
-    constructor(props){
-        super(props);
-        this.state ={
-            dishes : DISHES,
-            commnets : COMMENTS,
-            favorites:[]
+export default function Dishdetail (props){
+    const dispatch = useDispatch();
+    const dishId = props.route.params.dishId;
+    const dishes = useSelector(state => state.dishes.dishes)
+    const comments = useSelector((state) => state.comments.comments)
+    const favorites = useSelector((state) => state.favorites.favorites)
+
+    const markFavorite = (dishId) =>{
+        dispatch(ADD_FAVORITE(dishId))
         }
-    }
-    
-    
-    markFavorite(dishId){
-        this.setState( 
-            {favorites: this.state.favorites.concat(dishId)}
-            )}
-    render(){
-        const dishId = this.props.route.params.dishId;
+        
     return(
         <ScrollView>
-            <RenderDish dish={this.state.dishes[+dishId]}
-            favorite ={this.state.favorites.some(el => el === dishId)}
-            onPress ={()=>this.markFavorite(dishId)} />
-            <RenderComments comments={this.state.commnets.filter((comment) => comment.dishId===dishId)} />
+            <RenderDish dish={dishes[+dishId]}
+            favorite ={favorites.some(el => el === dishId)}
+            onPress ={()=>markFavorite(dishId)} />
+            <RenderComments comments={comments.filter((comment) => comment.dishId===dishId)} />
         </ScrollView>
-    );}
+    );
 }
-
-export default Dishdetail;
