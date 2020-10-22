@@ -28,11 +28,12 @@ function RenderItem(props){
 export default function Home(props){
     const dishes = useSelector(state => state.dishes.dishes)
     const leaders = useSelector((state) => state.leaders.leaders)
-    //const promotions= useSelector((state) => state.promotions.promotions)
+    const promotions= useSelector((state) => state.promotions.promotions)
     return(
     <ScrollView>
         <Text>{props.dola}</Text>
         <RenderItem item={dishes.filter((dish) => dish.featured)[0]} />
+        <RenderItem item={promotions.filter((promo) => promo.featured)[0]} />
         <RenderItem item={leaders.filter((leader) => leader.featured)[0]} />
     </ScrollView>);
 }

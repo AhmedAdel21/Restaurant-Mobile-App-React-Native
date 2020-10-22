@@ -36,7 +36,6 @@ function RenderComments(props) {
 
 function RenderDish (props) {
         const dish = props.dish;
-        console.log('in DishDetail'+ dish)
         if (dish != null){
             return(
                 <Card>

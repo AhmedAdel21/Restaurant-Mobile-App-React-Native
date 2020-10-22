@@ -7,7 +7,6 @@ import { baseUrl } from '../shared/baseUrl';
 function Menu (props){
     const { navigate } = props.navigation;
     const dishes = useSelector(state => state.dishes.dishes)
-    console.log(dishes)
     const renderMenuItem = ({item,index}) => {
         return(
             <ListItem key={index.toString()} bottomDivider

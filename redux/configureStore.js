@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import dishesSlice from './dishes';
 import commetsSlice from './comments';
 import leadersSlice from './leaders';
-import promotionsSlice from './leaders';
+import promotionsSlice from './promotions';
 
 export default configureStore({
   reducer: {

@@ -44,7 +44,6 @@ const ContactView = ()=>{
     }
 function About (props){
         const leaders = useSelector((state) => state.leaders.leaders)
-        console.log(leaders)
         return(
             <View>
                 <ScrollView>

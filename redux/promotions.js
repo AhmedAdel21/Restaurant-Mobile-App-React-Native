@@ -5,8 +5,6 @@ import {baseUrl} from '../shared/baseUrl';
 export const fetchPromotions = createAsyncThunk('redux/fetchPromotions',async () => {
     const response = await fetch (baseUrl + 'promotions')
     const promotions = await response.json();
-    console.log('prooooooooooomooooo')
-    console.log(promotions);
     return promotions
   
   })
