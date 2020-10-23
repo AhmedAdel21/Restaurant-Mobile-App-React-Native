@@ -5,6 +5,7 @@ import Dishdetail from './DishDetailComponent';
 import Home from'./HomeComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
+import Reservation from './ReservationComponent';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Image, StyleSheet, View, Text} from 'react-native';
@@ -33,7 +34,7 @@ const homeNavigator = () =>{
     return(
         <Stack.Navigator screenOptions={{headerStyle: {backgroundColor: "#512DA8"},
             headerTintColor: "#fff",headerTitleStyle: {color: "#fff"}}}>
-            <Stack.Screen name='Home' component={Home} options= {({ navigation }) => ({ headerLeft:() => <Icon name="home" type='font-awesome' size={30} color= 'white' onPress={ () => navigation.toggleDrawer() }/>,title:'Home'}) }/>
+            <Stack.Screen name='Home' component={Home} options= {({ navigation }) => ({ headerLeft:() => <Icon name="list" type='font-awesome' size={30} color= 'white' onPress={ () => navigation.toggleDrawer() }/>,title:'Home'}) }/>
         </Stack.Navigator>
     );
 }
@@ -53,6 +54,16 @@ const AboutNavigator = () => {
         </Stack.Navigator>
     );
 }
+
+const ReservationNavigator = () => {
+  return(
+      <Stack.Navigator screenOptions={{headerStyle: {backgroundColor: "#512DA8"},
+      headerTintColor: "#fff",headerTitleStyle: {color: "#fff"}}}>
+          <Stack.Screen name="Reservation" component={Reservation} options= {({ navigation }) => ({ headerLeft:() => <Icon name="list" type='font-awesome' size={30} color= 'white' onPress={ () => navigation.toggleDrawer() }/>,title:'Reservation'}) } />
+      </Stack.Navigator>
+  );
+}
+
 const CustomDrawerContentComponent = (props) => (
     <ScrollView>
       <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
@@ -86,6 +97,7 @@ function Main (props){
               <Drawer.Screen name='Menu' component={menuNavigator}  options={{drawerIcon:({ tintColor }) => (<Icon name='list' type='font-awesome' size={24} color={tintColor}/>) ,title: "Menu"}}/>
               <Drawer.Screen name="ContactNavigator" component={ContactNavigator} options={{drawerIcon:({ tintColor }) => (<Icon name='address-card' type='font-awesome' size={22} color={tintColor}/>) ,title: "Contact Us"}} />
               <Drawer.Screen name="AboutNavigator" component={AboutNavigator} options={{drawerIcon:({ tintColor }) => (<Icon name='info-circle' type='font-awesome' size={24} color={tintColor}/>) ,title: "About Us"}} />
+              <Drawer.Screen name='Reservation' component={ReservationNavigator}  options={{drawerIcon:({ tintColor }) => (<Icon name='cutlery' type='font-awesome' size={24} color={tintColor}/>) ,title: "Reservation"}}/>
           </Drawer.Navigator>
       </NavigationContainer>
           );

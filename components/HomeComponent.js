@@ -41,6 +41,7 @@ function RenderItem(props){
     }
     
 }
+
 export default function Home(props){
     const dishes = useSelector(state => state.dishes)
     const leaders = useSelector((state) => state.leaders)
