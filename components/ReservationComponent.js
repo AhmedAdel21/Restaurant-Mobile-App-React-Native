@@ -56,8 +56,9 @@ function Reservation(props){
     const pickerItems = itemsNumber.map((index) => 
     <Picker.Item label={index.toString()} value={index.toString()} key={index.toString()} />   )     
     
-    const canSave = !(guests == 0 || date === displayedDate)
-
+    const canSave = !(Boolean(guests == 0) || Boolean(date == displayedDate))
+    console.log(date)
+    console.log(displayedDate)
     const toggleModal = () =>{
         setShowModal(!showModal);
     }

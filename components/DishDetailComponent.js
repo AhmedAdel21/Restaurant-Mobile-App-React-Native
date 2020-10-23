@@ -38,15 +38,20 @@ function RenderDish (props) {
         const dish = props.dish;
         if (dish != null){
             return(
-                <Card>
-                <Card.Title>{dish.name}</Card.Title>
-                <Card.Image source={{uri: baseUrl + dish.image}} />
+                <Card  >
+                
+                <Card.Image source={{uri: baseUrl + dish.image}} style={{justifyContent: 'center'}}><Card.Title style={{color:'white'}}>{dish.name}</Card.Title></Card.Image>
                     <Text style={{margin: 10}}>
                         {dish.description}
                     </Text>
-                    <Icon raised reverse
-                        name={props.favorite ? 'heart' : 'heart-o'} type='font-awesome' color='#f50'
-                         onPress={()=>props.favorite ? console.log("Already favorite") : props.onPress() }/>
+                    <View style={{flex: 1, alignItems:'center' }}>
+                        <Icon raised reverse
+                            name={props.favorite ? 'heart' : 'heart-o'} type='font-awesome' color='#f50'
+                            onPress={()=>props.favorite ? console.log("Already favorite") : props.onPress() }
+                            
+                            />
+                    </View>
+                    
                 </Card> 
 
                     );

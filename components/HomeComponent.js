@@ -23,10 +23,10 @@ function RenderItem(props){
         if(item != null){
             return(
                 <Card>
-                    <Card.Image source={{uri: baseUrl + item.image}} >
-                        <View style={{alignSelf:'center'}}>
+                    <Card.Image source={{uri: baseUrl + item.image}} style={{justifyContent:'center', alignItems:'center'}} >
+                        <View >
                             <Card.Title style={{color:'#fff'}}>{item.name}</Card.Title>
-                            <Card.FeaturedSubtitle>{item.designation}</Card.FeaturedSubtitle>
+                            <Card.FeaturedSubtitle >{item.designation}</Card.FeaturedSubtitle>
                         </View>
                     </Card.Image>
                     <Text style={{margin: 10}}>
@@ -48,7 +48,6 @@ export default function Home(props){
     const promotions= useSelector((state) => state.promotions)
     return(
     <ScrollView>
-        <Text>{props.dola}</Text>
         <RenderItem item={dishes.dishes.filter((dish) => dish.featured)[0]}
         status={dishes.status}
         errMess={dishes.errMess}
