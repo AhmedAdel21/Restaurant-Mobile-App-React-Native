@@ -6,7 +6,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import * as Localization from 'expo-localization';
 import moment from 'moment-timezone';
-import { cos } from 'react-native-reanimated';
 
 function Reservation(props){
     // get the actual date of any device 

@@ -9,11 +9,43 @@ export const fetchComments = createAsyncThunk('redux/fetchComments',async () => 
     return comments
   
   })
+
+export function postComments(comment) {
+    return async dispatch => {
+  
+      try {
+          const response = await fetch(baseUrl + 'comments', {
+            method: "POST",
+            body: JSON.stringify(comment),
+            headers: {
+              "Content-Type": "application/json"
+            },
+            credentials: "same-origin"
+          })
+          const comment = await response.json()
+          console.log(comment)
+          console.log('finish try')
+      } 
+      catch (error) {
+        console.log('in err')
+          dispatch(COMMENTS_FAILED(error))
+      }
+      finally {
+        console.log('in finally')
+        setTimeout(() => {
+          dispatch(ADD_COMMENTS(comment))
+        }, 2000)
+      }
+    }
+  }
+
+
 export const commentsSlice = createSlice({
     name: 'comments',
     initialState: {errMess: null,comments:[],status: 'idle'},
     reducers: {
-        ADD_COMMENTS: (state, action) => {state.comments = action.payload}
+        ADD_COMMENTS: (state, action) => {state.comments = action.payload},
+        COMMENTS_FAILED:(state,action) => {state.errMess = action.payload}
     },
     extraReducers: {
       [fetchComments.pending]: (state, action) => {
