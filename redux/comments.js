@@ -10,41 +10,46 @@ export const fetchComments = createAsyncThunk('redux/fetchComments',async () => 
   
   })
 
-export function postComments(comment) {
-    return async dispatch => {
+export const postComments = (rating, author, comment, dishId) => (dispatch) => {
+    const newComment = {
+      dishId: dishId,
+      rating: rating,
+      author: author,
+      comment: comment
+    };
+    newComment.date = new Date().toISOString();
+    console.log('newComment'+newComment)
+    return fetch(baseUrl + 'comments', {
+      method: "POST",
+      body: JSON.stringify(newComment),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
+  })
+  .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        var error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+      }
+    },
+    error => {
+          throw error;
+    })
+  .then(response => response.json())
+  .then(response => setTimeout(() => {dispatch(ADD_COMMENTS(response))}, 2000) )
+  .catch(error =>  { console.log('post comments', error.message); alert('Your comment could not be posted\nError: '+error.message); });
+  };
   
-      try {
-          const response = await fetch(baseUrl + 'comments', {
-            method: "POST",
-            body: JSON.stringify(comment),
-            headers: {
-              "Content-Type": "application/json"
-            },
-            credentials: "same-origin"
-          })
-          const comment = await response.json()
-          console.log(comment)
-          console.log('finish try')
-      } 
-      catch (error) {
-        console.log('in err')
-          dispatch(COMMENTS_FAILED(error))
-      }
-      finally {
-        console.log('in finally')
-        setTimeout(() => {
-          dispatch(ADD_COMMENTS(comment))
-        }, 2000)
-      }
-    }
-  }
-
-
+  
 export const commentsSlice = createSlice({
     name: 'comments',
     initialState: {errMess: null,comments:[],status: 'idle'},
     reducers: {
-        ADD_COMMENTS: (state, action) => {state.comments = action.payload},
+        ADD_COMMENTS: (state, action) => {state.comments.push(action.payload)},
         COMMENTS_FAILED:(state,action) => {state.errMess = action.payload}
     },
     extraReducers: {

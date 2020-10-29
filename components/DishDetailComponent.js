@@ -6,6 +6,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { baseUrl } from '../shared/baseUrl';
 import { useSelector, useDispatch } from 'react-redux';
 import {ADD_FAVORITE} from '../redux/favorites';
+import {postComments} from '../redux/comments';
+import { Value } from 'react-native-reanimated';
+
+
+
 function RenderComments(props) {
 
     const comments = props.comments;
@@ -33,7 +38,20 @@ function RenderComments(props) {
     );
 }
 
-const CommetsModal = ({showModal, toggleModal}) =>{
+const CommetsModal = ({showModal, toggleModal, dishId}) =>{
+    const dispatch = useDispatch();
+    const dishIdddd = dishId;
+    const [author, setAuthor] = useState('');
+    const [comment, setComment] = useState('');
+    const [rating, setRating] = useState('');
+
+    const resetForm = () => {
+        setAuthor('');setComment('');setRating('');
+    }
+
+    const submiteComment = (rating, author, comment, dishId = dishIdddd) => {
+        console.log('comment' +comment)
+        dispatch(postComments(rating, author, comment, dishId))}
     return(
         <Modal animationType = {"slide"} transparent = {false}
             visible = {showModal}
@@ -44,21 +62,24 @@ const CommetsModal = ({showModal, toggleModal}) =>{
 
             </View>
             <View style={{margin: 30}} >
-                <Rating showRating  startingValue={5} />
+                <Rating showRating  startingValue={3} 
+                onFinishRating={value => setRating(value)  } />
             </View>
 
             <Input
             placeholder='Author'
             leftIcon={{ type: 'font-awesome', name: 'user-o' }}
+            onChangeText = {Value => setAuthor(Value)}
             />
 
             <Input
             placeholder='Comment'
             leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
+            onChangeText = {value  => setComment(value)}
             />
             <View style={{marginBottom:20}}>
                 <Button 
-                onPress = {() =>{toggleModal(); resetForm();}}
+                onPress = {() =>{toggleModal();  submiteComment(rating,author,comment); resetForm(); }}
                 title="SUBMIT" 
                 color="#512DA8"
                 
@@ -106,12 +127,13 @@ function RenderDish (props) {
 }
 export default function Dishdetail (props){
     const dispatch = useDispatch();
+
     const dishId = props.route.params.dishId;
     const dishes = useSelector(state => state.dishes.dishes)
     const comments = useSelector((state) => state.comments.comments)
     const favorites = useSelector((state) => state.favorites.favorites)
     const [showModal, setShowModal] = useState(false);
-
+    
     const toggleModal = () =>{
         setShowModal(!showModal);
     }
@@ -127,7 +149,8 @@ export default function Dishdetail (props){
             onPress ={()=>markFavorite(dishId)}
             toggleModal={toggleModal} />
             <RenderComments comments={comments.filter((comment) => comment.dishId===dishId)} />
-            <CommetsModal showModal={showModal} toggleModal={toggleModal}/>
+            <CommetsModal showModal={showModal} toggleModal={toggleModal}
+             dishId = {dishId} />
         </ScrollView>
     );
 }
