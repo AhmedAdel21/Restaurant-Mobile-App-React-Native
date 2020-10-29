@@ -12,8 +12,7 @@ export const favoritesSlice = createSlice({
     initialState: {favorites:[],status: 'idle'},
     reducers: {
         ADD_FAVORITE: (state, action) => {
-            if (state.favorites.some((el) => el === action.payload) ) {
-            }
+            if (state.favorites.some((el) => el === action.payload) ) {    }
             else{
                 state.favorites = state.favorites.concat(action.payload)
             }

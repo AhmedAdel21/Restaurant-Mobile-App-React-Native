@@ -6,6 +6,7 @@ import Home from'./HomeComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
 import Reservation from './ReservationComponent';
+import Favorites from './FavoriteComponent';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Image, StyleSheet, View, Text} from 'react-native';
@@ -42,7 +43,7 @@ const ContactNavigator = () => {
     return(
         <Stack.Navigator screenOptions={{headerStyle: {backgroundColor: "#512DA8"},
         headerTintColor: "#fff",headerTitleStyle: {color: "#fff"}}}>
-            <Stack.Screen name="Contact" component={Contact} options={{ title:'Contact Us'}} />
+            <Stack.Screen name="Contact" component={Contact} options=  {({ navigation }) => ({ headerLeft:() => <Icon name="menu" size={30} color= 'white' onPress={ () => navigation.toggleDrawer() }/>, title:'Contact Us'}) }  />
         </Stack.Navigator>
     );
 } 
@@ -50,7 +51,7 @@ const AboutNavigator = () => {
     return(
         <Stack.Navigator screenOptions={{headerStyle: {backgroundColor: "#512DA8"},
         headerTintColor: "#fff",headerTitleStyle: {color: "#fff"}}}>
-            <Stack.Screen name="About" component={About} options={{ title:'About US'}} />
+            <Stack.Screen name="About" component={About} options= {({ navigation }) => ({ headerLeft:() => <Icon name="menu" size={30} color= 'white' onPress={ () => navigation.toggleDrawer() }/>, title:'About US'}) } />
         </Stack.Navigator>
     );
 }
@@ -59,7 +60,16 @@ const ReservationNavigator = () => {
   return(
       <Stack.Navigator screenOptions={{headerStyle: {backgroundColor: "#512DA8"},
       headerTintColor: "#fff",headerTitleStyle: {color: "#fff"}}}>
-          <Stack.Screen name="Reservation" component={Reservation} options= {({ navigation }) => ({ headerLeft:() => <Icon name="list" type='font-awesome' size={30} color= 'white' onPress={ () => navigation.toggleDrawer() }/>,title:'Reservation'}) } />
+          <Stack.Screen name="Reservation" component={Reservation} options= {({ navigation }) => ({ headerLeft:() => <Icon name="menu" size={30} color= 'white' onPress={ () => navigation.toggleDrawer() }/>, title:'Reservation'}) } /> 
+      </Stack.Navigator>
+  );
+}
+
+const FavoritesNavigator = () => {
+  return(
+      <Stack.Navigator screenOptions={{headerStyle: {backgroundColor: "#512DA8"},
+      headerTintColor: "#fff",headerTitleStyle: {color: "#fff"}}}>
+          <Stack.Screen name="My Favorites" component={Favorites} options= {({ navigation }) => ({ headerLeft:() => <Icon name="menu" size={30} color= 'white' onPress={ () => navigation.toggleDrawer() }/>, title:'My Favorites'}) } />
       </Stack.Navigator>
   );
 }
@@ -98,6 +108,7 @@ function Main (props){
               <Drawer.Screen name="ContactNavigator" component={ContactNavigator} options={{drawerIcon:({ tintColor }) => (<Icon name='address-card' type='font-awesome' size={22} color={tintColor}/>) ,title: "Contact Us"}} />
               <Drawer.Screen name="AboutNavigator" component={AboutNavigator} options={{drawerIcon:({ tintColor }) => (<Icon name='info-circle' type='font-awesome' size={24} color={tintColor}/>) ,title: "About Us"}} />
               <Drawer.Screen name='Reservation' component={ReservationNavigator}  options={{drawerIcon:({ tintColor }) => (<Icon name='cutlery' type='font-awesome' size={24} color={tintColor}/>) ,title: "Reservation"}}/>
+              <Drawer.Screen name='My Favorites' component={FavoritesNavigator}  options={{drawerIcon:({ tintColor }) => (<Icon name='heart' type='font-awesome' size={24} color={tintColor}/>) ,title: "My Favorites"}}/>
           </Drawer.Navigator>
       </NavigationContainer>
           );

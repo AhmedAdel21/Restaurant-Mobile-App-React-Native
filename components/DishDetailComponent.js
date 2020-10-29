@@ -50,7 +50,6 @@ const CommetsModal = ({showModal, toggleModal, dishId}) =>{
     }
 
     const submiteComment = (rating, author, comment, dishId = dishIdddd) => {
-        console.log('comment' +comment)
         dispatch(postComments(rating, author, comment, dishId))}
     return(
         <Modal animationType = {"slide"} transparent = {false}
