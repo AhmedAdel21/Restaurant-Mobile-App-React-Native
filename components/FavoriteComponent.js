@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, Text, TouchableOpacity ,StyleSheet, TouchableHighlight, Animated } from 'react-native';
+import { FlatList, View, Text, TouchableOpacity ,StyleSheet, Animated, Alert } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import { useSelector,useDispatch } from 'react-redux';
 import { Loading } from './LoadingComponent';
@@ -15,9 +15,24 @@ import {DELETE_FAVORITE} from '../redux/favorites';
 const RenderItems = (props) => {
     const item = props.item;
     const index = props.index;
+    const showAlert = () =>{
+        Alert.alert(
+            'Delete Favorite ?',
+            'Are you sure you wish to delete the favorite dish ' + item.name + '?',
+            [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              { text: "OK", onPress: () => {props.deleteFavorite();console.log("OK Pressed"); } }
+            ],
+            { cancelable: false }
+          );
+    }
     const leftSwipe = () => {
         return (
-          <TouchableOpacity activeOpacity={0.6} onPress={props.deleteFavorite} >
+          <TouchableOpacity activeOpacity={0.6} onPress={showAlert} >
             <View style={styles.deleteBox}>
               <Animated.Text >
                 Delete
