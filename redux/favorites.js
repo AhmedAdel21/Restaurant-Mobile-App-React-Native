@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import Favorites from '../components/FavoriteComponent';
 
 /*
 import { useDispatch } from 'react-redux';
@@ -16,9 +17,14 @@ export const favoritesSlice = createSlice({
             else{
                 state.favorites = state.favorites.concat(action.payload)
             }
+        },
+        DELETE_FAVORITE: (state, action) =>{
+            console.log('dola')
+            console.log(action.payload)
+            state.favorites = state.favorites.filter((favorite) => favorite !== action.payload)
         }
     }
 })
 
-export const { ADD_FAVORITE } = favoritesSlice.actions;
+export const { ADD_FAVORITE, DELETE_FAVORITE } = favoritesSlice.actions;
 export default favoritesSlice.reducer;
