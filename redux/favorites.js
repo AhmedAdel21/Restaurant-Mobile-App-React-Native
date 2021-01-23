@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import Favorites from '../components/FavoriteComponent';
 
 /*
 import { useDispatch } from 'react-redux';
