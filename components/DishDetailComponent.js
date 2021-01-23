@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import { View, Text } from 'react-native';
 import { Tile,Card, Icon, Input, Rating } from 'react-native-elements';
-import {FlatList, Modal,Button} from 'react-native';
+import {FlatList, Modal,Button , Alert, PanResponder} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { baseUrl } from '../shared/baseUrl';
 import { useSelector, useDispatch } from 'react-redux';
@@ -28,7 +28,8 @@ function RenderComments(props) {
     
     return (
         <Card>
-            <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>                 <Card.Title>Comments</Card.Title>
+            <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
+                <Card.Title>Comments</Card.Title>
                 <FlatList 
                     data={comments}
                     renderItem={renderCommentItem}
@@ -96,11 +97,38 @@ const CommetsModal = ({showModal, toggleModal, dishId}) =>{
 }
 function RenderDish (props) {
         const dish = props.dish;
+        const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+            if ( dx < -200 )
+                return true;
+            else
+                return false;
+        }
+    
+        const panResponder = PanResponder.create({
+            onStartShouldSetPanResponder: (e, gestureState) => {
+                return true;
+            },
+            onPanResponderEnd: (e, gestureState) => {
+                console.log("pan responder end", gestureState);
+                if (recognizeDrag(gestureState))
+                    Alert.alert(
+                        'Add Favorite',
+                        'Are you sure you wish to add ' + dish.name + ' to favorite?',
+                        [
+                            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                            {text: 'OK', onPress: ()=>{props.favorite ? console.log("Already favorite") : props.onPress() } },
+                        ],
+                        { cancelable: false }
+                    );
+    
+                return true;
+            }
+        })
         if (dish != null){
             return(
                 <Card  >
-                    <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
-
+                    <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
+                    {...panResponder.panHandlers}>
                     <Card.Image source={{uri: baseUrl + dish.image}} style={{justifyContent: 'center'}}><Card.Title style={{color:'white'}}>{dish.name}</Card.Title></Card.Image>
                         <Text style={{margin: 10}}>
                             {dish.description}
