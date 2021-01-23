@@ -4,6 +4,7 @@ import React  from 'react';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './LoadingComponent';
+import * as Animatable from 'react-native-animatable';
 
 function Menu (props){
     const { navigate } = props.navigation;
@@ -11,14 +12,16 @@ function Menu (props){
 
     const renderMenuItem = ({item,index}) => {
         return(
-            <Tile
-            imageSrc={{uri: baseUrl + item.image}}
-            title={item.name}
-            featured
-            caption={item.description}
-            key={index.toString()} bottomDivider
-            onPress={() => navigate('Dishdetail', { dishId: item.id })}
-            />
+            <Animatable.View animation="fadeInRightBig" duration={2000}> 
+                <Tile
+                imageSrc={{uri: baseUrl + item.image}}
+                title={item.name}
+                featured
+                caption={item.description}
+                key={index.toString()} bottomDivider
+                onPress={() => navigate('Dishdetail', { dishId: item.id })}
+                />
+            </Animatable.View>
             
         );
     }

@@ -8,7 +8,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 //import Swipeable from 'react-native-swipeable';
 
 import {DELETE_FAVORITE} from '../redux/favorites';
-
+import * as Animatable from 'react-native-animatable';
 
 
 
@@ -44,6 +44,7 @@ const RenderItems = (props) => {
 
     return(
         <Swipeable renderRightActions={leftSwipe} >
+            <Animatable.View animation="fadeInRightBig" duration={2000}>
                 <ListItem key={index.toString()} bottomDivider
                 onPress={() => props.navigate('Dishdetail', { dishId: item.id })}>
                     <Avatar rounded source={{uri: baseUrl + item.image}}/>
@@ -52,6 +53,8 @@ const RenderItems = (props) => {
                     <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem>
+             </Animatable.View>
+
             </Swipeable>
     );
 }

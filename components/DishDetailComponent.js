@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {ADD_FAVORITE} from '../redux/favorites';
 import {postComments} from '../redux/comments';
 import { Value } from 'react-native-reanimated';
-
+import * as Animatable from 'react-native-animatable';
 
 
 function RenderComments(props) {
@@ -28,12 +28,13 @@ function RenderComments(props) {
     
     return (
         <Card>
-            <Card.Title>Comments</Card.Title>
-            <FlatList 
-                data={comments}
-                renderItem={renderCommentItem}
-                keyExtractor={item => item.id.toString()}
-                />
+            <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>                 <Card.Title>Comments</Card.Title>
+                <FlatList 
+                    data={comments}
+                    renderItem={renderCommentItem}
+                    keyExtractor={item => item.id.toString()}
+                    />
+            </Animatable.View>
         </Card>
     );
 }
@@ -98,24 +99,25 @@ function RenderDish (props) {
         if (dish != null){
             return(
                 <Card  >
-                
-                <Card.Image source={{uri: baseUrl + dish.image}} style={{justifyContent: 'center'}}><Card.Title style={{color:'white'}}>{dish.name}</Card.Title></Card.Image>
-                    <Text style={{margin: 10}}>
-                        {dish.description}
-                    </Text>
-                    <View style={{flex: 1, flexDirection: 'row', alignItems:'center',justifyContent:'center' }}>
-                        <Icon raised reverse
-                            name={props.favorite ? 'heart' : 'heart-o'} type='font-awesome' color='#f50'
-                            onPress={()=>props.favorite ? console.log("Already favorite") : props.onPress() }
-                            />
-                        <Icon
-                            raised reverse
-                            name='pencil'
-                            type='font-awesome'
-                            color='#512DA8'
-                            onPress={() => props.toggleModal()} />
-                    </View>
-                    
+                    <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+
+                    <Card.Image source={{uri: baseUrl + dish.image}} style={{justifyContent: 'center'}}><Card.Title style={{color:'white'}}>{dish.name}</Card.Title></Card.Image>
+                        <Text style={{margin: 10}}>
+                            {dish.description}
+                        </Text>
+                        <View style={{flex: 1, flexDirection: 'row', alignItems:'center',justifyContent:'center' }}>
+                            <Icon raised reverse
+                                name={props.favorite ? 'heart' : 'heart-o'} type='font-awesome' color='#f50'
+                                onPress={()=>props.favorite ? console.log("Already favorite") : props.onPress() }
+                                />
+                            <Icon
+                                raised reverse
+                                name='pencil'
+                                type='font-awesome'
+                                color='#512DA8'
+                                onPress={() => props.toggleModal()} />
+                        </View>
+                    </Animatable.View>
                 </Card> 
 
                     );
